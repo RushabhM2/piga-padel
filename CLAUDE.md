@@ -40,27 +40,24 @@ Scope each PR to one step. Keep PRs small and reviewable.
 
 ## Commands
 
-> To be filled in once the project is scaffolded (PR 1).
-
-Once scaffolded, expected commands will be:
+All backend commands run from `api/`. Frontend commands will be added once `web/` is scaffolded.
 
 ```bash
-# Frontend (Next.js)
-npm run dev             # Start Next.js dev server
-npm run build           # Production build
-npm run lint            # ESLint
-
-# Backend (NestJS)
-npm run start:dev       # Start NestJS with watch mode
+# Backend (NestJS) — api/
+npm run start:dev       # Start with hot reload
+npm run start:prod      # Run compiled output
 npm run build           # Compile TypeScript
-npm run test            # Run unit tests
-npm run test:e2e        # Run e2e tests
+npm run lint            # ESLint + auto-fix
+npm run test            # Unit tests
+npm run test:e2e        # End-to-end tests
+npm run test:cov        # Coverage report
 
-# Database (Prisma)
-npx prisma migrate dev  # Create and apply a migration
-npx prisma migrate deploy  # Apply migrations in production
-npx prisma generate     # Regenerate Prisma client after schema changes
-npx prisma studio       # Open Prisma Studio (DB GUI)
+# Database (Prisma) — api/
+npm run prisma:migrate  # Create and apply a dev migration
+npm run prisma:deploy   # Apply migrations in production
+npm run prisma:generate # Regenerate Prisma client after schema changes
+npm run prisma:studio   # Open Prisma Studio (DB GUI)
+npm run prisma:seed     # Seed the database
 ```
 
 ## Architecture (planned)
@@ -88,3 +85,4 @@ npx prisma studio       # Open Prisma Studio (DB GUI)
 - Never hand-edit the generated Prisma client — run `prisma generate` after schema changes
 - M-Pesa callbacks need a public HTTPS endpoint — use the NestJS backend deployed on a public URL (not localhost)
 - Court proximity queries use PostGIS — enable the extension in the initial migration
+- Developer will be coding alongside agent, when installing new packages, check what already exists to prevent reinstalls
