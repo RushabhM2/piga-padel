@@ -1,0 +1,63 @@
+{
+	"folders": [
+		{
+			"name": "root",
+			"path": "."
+		},
+		{
+			"name": "web (Next.js)",
+			"path": "web"
+		},
+		{
+			"name": "api (NestJS)",
+			"path": "api"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "web/node_modules/typescript/lib",
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"eslint.workingDirectories": [
+			{ "directory": "web", "changeProcessCWD": true },
+			{ "directory": "api", "changeProcessCWD": true }
+		],
+		"prisma.prismaFmtBinPath": "api/node_modules/.bin/prisma"
+	},
+	"extensions": {
+		"recommendations": [
+			"esbenp.prettier-vscode",
+			"dbaeumer.vscode-eslint",
+			"Prisma.prisma",
+			"bradlc.vscode-tailwindcss"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Next.js dev",
+				"type": "node",
+				"request": "launch",
+				"cwd": "${workspaceFolder:web (Next.js)}",
+				"runtimeExecutable": "npm",
+				"runtimeArgs": ["run", "dev"],
+				"skipFiles": ["<node_internals>/**"]
+			},
+			{
+				"name": "NestJS dev",
+				"type": "node",
+				"request": "launch",
+				"cwd": "${workspaceFolder:api (NestJS)}",
+				"runtimeExecutable": "npm",
+				"runtimeArgs": ["run", "start:dev"],
+				"skipFiles": ["<node_internals>/**"]
+			}
+		],
+		"compounds": [
+			{
+				"name": "Full stack",
+				"configurations": ["Next.js dev", "NestJS dev"]
+			}
+		]
+	}
+}
