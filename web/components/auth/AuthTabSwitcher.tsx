@@ -1,10 +1,6 @@
 import { Phone, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-export enum AuthTab {
-  Phone = 'phone',
-  Email = 'email',
-}
+import { AuthTab } from '@/types/auth';
 
 interface AuthTabSwitcherProps {
   activeTab: AuthTab;

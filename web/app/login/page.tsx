@@ -13,12 +13,12 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function handlePhoneSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handlePhoneSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     // TODO: call send-OTP API
   }
 
-  function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleEmailSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     // TODO: call sign-in API
   }
