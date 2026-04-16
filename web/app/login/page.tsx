@@ -13,11 +13,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function handlePhoneSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    // TODO: call send-OTP API
-  }
-
   function handleEmailSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     // TODO: call sign-in API
@@ -72,7 +67,7 @@ export default function LoginPage() {
           <AuthTabSwitcher activeTab={tab} onChange={setTab} />
 
           {tab === AuthTab.Phone ? (
-            <PhoneForm phone={phone} onChange={setPhone} onSubmit={handlePhoneSubmit} />
+            <PhoneForm phone={phone} onChange={setPhone} />
           ) : (
             <EmailForm
               email={email}
