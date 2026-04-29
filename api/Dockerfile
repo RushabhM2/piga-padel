@@ -1,15 +1,35 @@
-FROM node:22-alpine
+# Stage 1: Production dependencies only
+FROM node:22-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
+# Stage 2: Build
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npx prisma generate && npm run build
+
+# Stage 3: Runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+ENV NODE_ENV=production
 
-RUN npm ci
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nestjs
 
-COPY . .
+# Copy with correct ownership
+COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
+COPY --from=deps --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nestjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder --chown=nestjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nestjs:nodejs /app/prisma ./prisma
 
-RUN npx prisma generate && npm run build && npm prune --omit=dev
+USER nestjs
 
-EXPOSE 3000
-
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main.js"]
+EXPOSE 3001
+CMD ["node", "dist/main.js"]
