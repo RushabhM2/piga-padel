@@ -5,13 +5,12 @@ on:
     branches:
       - main
 
-env:
-  IMAGE: africa-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/piga-padel/api:${{ github.sha }}
-
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    env:
+      IMAGE: africa-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/piga-padel/api:${{ github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +32,8 @@ jobs:
       - name: Deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
+          service: piga-padel-api
+          region: africa-south1
           image: ${{ env.IMAGE }}
           flags: --add-cloudsql-instances=${{ secrets.GCP_PROJECT_ID }}:africa-south1:piga-padel-db
-          secrets: ${{ DATABASE_URL=DATABASE_URL:latest }}
+          secrets: DATABASE_URL=piga-padel-database-url:latest
