@@ -20,11 +20,12 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker africa-south1-docker.pkg.dev
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: africa-south1-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GCP_SA_KEY }}
   
       - name: Build API Docker image 
         run: docker build -t ${{ env.IMAGE }} ./api
