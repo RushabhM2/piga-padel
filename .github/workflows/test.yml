@@ -16,5 +16,5 @@ jobs:
         with:
           node-version: 22
       - run: cd api && npm ci
+      - run: cd api && npx prisma generate
       - run: cd api && npm test
-      - run: cd api && npm run build
